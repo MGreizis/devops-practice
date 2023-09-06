@@ -1,9 +1,15 @@
 package org.example;
+import org.example.Calculator;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
     public static void main(String[] args) {
+        Calculator calculator = new Calculator();
+
+        int result = calculator.add(3, 2);
+        System.out.println("3 + 2 = " + result);
+
         // Press Opt+Enter with your caret at the highlighted text to see how
         // IntelliJ IDEA suggests fixing it.
         System.out.print("Hello and welcome!");

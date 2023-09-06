@@ -4,20 +4,29 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/java
 
 trigger:
-- main
+  - main
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: 'ubuntu-latest'
 
 steps:
-- task: Gradle@2
-  inputs:
-    workingDirectory: ''
-    gradleWrapperFile: 'gradlew'
-    gradleOptions: '-Xmx3072m'
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.8'
-    jdkArchitectureOption: 'x64'
-    publishJUnitResults: true
-    testResultsFiles: '**/TEST-*.xml'
-    tasks: 'build'
+  - task: UseJavaVersion@0
+    inputs:
+      version: '1.8'
+      installationPath: Default
+
+  - task: Gradle@2
+    inputs:
+      workingDirectory: ''
+      gradleWrapperFile: 'gradlew'
+      gradleOptions: '-Xmx3072m'
+      javaHomeOption: 'JDKVersion'
+      jdkVersionOption: '1.8'
+      jdkArchitectureOption: 'x64'
+      tasks: 'test'  # Run tests
+
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFormat: 'JUnit'  # Specify the format of your test results (JUnit in this case)
+      testResultsFiles: '**/TEST-*.xml'  # Use the appropriate pattern to match your test results
+      failTaskOnFailedTests: true  # Fail the pipeline if any tests fail
